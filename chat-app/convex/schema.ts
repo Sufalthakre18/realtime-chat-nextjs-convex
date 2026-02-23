@@ -2,7 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  // Users table - synced from Clerk
+  // users table - synced from Clerk
   users: defineTable({
     clerkId: v.string(),
     email: v.string(),
@@ -12,7 +12,7 @@ export default defineSchema({
     lastSeen: v.number(),
   }).index("by_clerk_id", ["clerkId"]).index("by_online", ["isOnline"]),
 
-  // Conversations table - both 1-on-1 and group chats
+  // conversations table - both 1-on-1 and group chats
   conversations: defineTable({
     name: v.optional(v.string()), 
     isGroup: v.boolean(),
@@ -22,7 +22,7 @@ export default defineSchema({
     lastMessagePreview: v.optional(v.string()),
   }).index("by_participant", ["participants"]).index("by_last_message", ["lastMessageAt"]),
 
-  // Messages table
+  // messages table
   messages: defineTable({
     conversationId: v.id("conversations"),
     senderId: v.id("users"),
@@ -33,7 +33,7 @@ export default defineSchema({
     readBy: v.array(v.id("users")), 
   }).index("by_conversation", ["conversationId"]).index("by_conversation_timestamp", ["conversationId", "timestamp"]),
 
-  // Message Reactions
+  // message Reactions
   reactions: defineTable({
     messageId: v.id("messages"),
     userId: v.id("users"),
