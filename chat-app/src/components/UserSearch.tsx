@@ -20,6 +20,7 @@ export default function UserSearch({ onClose, onSelectUser }: UserSearchProps) {
   const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
 
   const allUsers = useQuery(api.users.getAllUsers);
+  console.log("ALL USERS:", allUsers);
   const searchResults = useQuery(
     api.users.searchUsers,
     searchTerm ? { searchTerm } : "skip"

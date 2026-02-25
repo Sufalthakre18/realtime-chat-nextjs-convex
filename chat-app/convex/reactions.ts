@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-
 export const toggleReaction = mutation({
   args: {
     messageId: v.id("messages"),
@@ -18,7 +17,6 @@ export const toggleReaction = mutation({
 
     if (!user) throw new Error("User not found");
 
-    
     const existing = await ctx.db
       .query("reactions")
       .withIndex("by_message_user", (q) =>
@@ -41,7 +39,6 @@ export const toggleReaction = mutation({
   },
 });
 
-// get reactions for a message
 export const getReactions = query({
   args: { messageId: v.id("messages") },
   handler: async (ctx, args) => {
@@ -50,18 +47,22 @@ export const getReactions = query({
       .withIndex("by_message", (q) => q.eq("messageId", args.messageId))
       .collect();
 
-    //group by emoji
-    const grouped: Record<string, { count: number; userIds: string[] }> = {};
+    const grouped = new Map<string, { emoji: string; count: number; userIds: string[] }>();
 
     for (const reaction of reactions) {
-      if (!grouped[reaction.emoji]) {
-        grouped[reaction.emoji] = { count: 0, userIds: [] };
+      if (!grouped.has(reaction.emoji)) {
+        grouped.set(reaction.emoji, {
+          emoji: reaction.emoji,
+          count: 0,
+          userIds: [],
+        });
       }
-      grouped[reaction.emoji].count++;
-      grouped[reaction.emoji].userIds.push(reaction.userId);
+      const group = grouped.get(reaction.emoji)!;
+      group.count++;
+      group.userIds.push(reaction.userId);
     }
 
-    return grouped;
+    return Array.from(grouped.values());
   },
 });
 

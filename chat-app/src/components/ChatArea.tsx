@@ -1,10 +1,10 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react"; // REMOVED useMutation
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { ArrowLeft, MoreVertical, Users } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import UserAvatar from "./UserAvatar";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
@@ -22,6 +22,7 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const markAsRead = useMutation(api.messages.markAsRead);
 
   const currentUser = useQuery(api.users.getCurrentUser);
   const conversation = useQuery(
@@ -32,15 +33,16 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
     api.messages.getMessages,
     conversationId ? { conversationId } : "skip"
   );
-  const markAsRead = useMutation(api.messages.markAsRead);
 
-  // mark messages as read when conversation opens
   useEffect(() => {
-    if (conversationId) {
-      markAsRead({ conversationId });
-    }
-  }, [conversationId, markAsRead]);
-
+  if (conversationId) {
+    // Mark as read after 1 second delay
+    const timer = setTimeout(() => {
+      markAsRead({ conversationId }).catch(() => {});
+    }, 1000);
+    return () => clearTimeout(timer);
+  }
+}, [conversationId, markAsRead]);
 
   useEffect(() => {
     if (!messages || messages.length === 0) return;
@@ -82,9 +84,9 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
 
   if (!conversationId) {
     return (
-      <div className="h-full flex items-center justify-center bg-linear-to-br from-indigo-50 via-white to-purple-50">
+      <div className="h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <div className="text-center">
-          <div className="w-24 h-24 bg-linear-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Users className="w-12 h-12 text-white" />
           </div>
           <h3 className="text-2xl font-bold text-slate-900 mb-2">
@@ -106,7 +108,6 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
     );
   }
 
-  // get other user info for 1-on-1 chats
   const otherParticipant = conversation.participantDetails.find(
     (p: any) => p._id !== currentUser._id
   );
@@ -117,17 +118,13 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
 
   const headerSubtitle = conversation.isGroup
     ? `${conversation.participantDetails.length} members`
-    : otherParticipant?.isOnline
-    ? "Online"
-    : "Offline";
+    : "Chat";
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* chat Header */}
       <div className="shrink-0 border-b border-slate-200 bg-white shadow-sm">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-
             <button
               onClick={onBack}
               className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
@@ -138,8 +135,6 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
             <UserAvatar
               name={headerName}
               imageUrl={!conversation.isGroup ? otherParticipant?.imageUrl : undefined}
-              isOnline={!conversation.isGroup && otherParticipant?.isOnline}
-              showOnline
               size="md"
             />
 
@@ -155,11 +150,10 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
         </div>
       </div>
 
-      {/* messages area */}
       <div
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-4 space-y-4 bg-linear-to-b from-slate-50 to-white"
+        className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-slate-50 to-white"
       >
         {messages.length === 0 ? (
           <EmptyState type="no-messages" />
@@ -171,7 +165,6 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
                 (p: any) => p._id === message.senderId
               );
 
-              // show avatar for group chats or other user's messages
               const showAvatar = !isOwn && (conversation.isGroup || index === 0 || messages[index - 1]?.senderId !== message.senderId);
 
               return (
@@ -201,7 +194,6 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
         </button>
       )}
 
-      {/* message input */}
       <MessageInput conversationId={conversationId} />
     </div>
   );
