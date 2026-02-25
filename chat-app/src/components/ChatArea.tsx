@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react"; // REMOVED useMutation
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { ArrowLeft, MoreVertical, Users } from "lucide-react";
@@ -35,14 +35,13 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
   );
 
   useEffect(() => {
-  if (conversationId) {
-    // Mark as read after 1 second delay
-    const timer = setTimeout(() => {
-      markAsRead({ conversationId }).catch(() => {});
-    }, 1000);
-    return () => clearTimeout(timer);
-  }
-}, [conversationId, markAsRead]);
+    if (conversationId) {
+      const timer = setTimeout(() => {
+        markAsRead({ conversationId }).catch(() => { });
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [conversationId, markAsRead]);
 
   useEffect(() => {
     if (!messages || messages.length === 0) return;
@@ -84,15 +83,21 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
 
   if (!conversationId) {
     return (
-      <div className="h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="text-center">
-          <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+      <div
+        className="authdiv h-full w-full flex items-center justify-center bg-cover bg-center"
+      
+      >
+
+        <div className="text-center backdrop-blur-sm bg-white/60 p-8 rounded-2xl">
+          <div className="w-24 h-24 bg-[#397d7f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Users className="w-12 h-12 text-white" />
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-2">
-            Welcome to TARS Chat
+
+          <h3 className="font-serif text-2xl font-bold text-[#2E3440] mb-2">
+            Welcome to Chat
           </h3>
-          <p className="text-slate-600">
+
+          <p className="font-mono text-[#2E3440]/70">
             Select a conversation to start messaging
           </p>
         </div>
@@ -103,7 +108,7 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
   if (!conversation || !messages || !currentUser) {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B7CF6]"></div>
       </div>
     );
   }
@@ -121,15 +126,16 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
     : "Chat";
 
   return (
-    <div className="h-full flex flex-col bg-white">
-      <div className="shrink-0 border-b border-slate-200 bg-white shadow-sm">
+    <div className="h-full flex flex-col bg-white w-full">
+      {/* Header */}
+      <div className="shrink-0 border-b border-[#E6E8EC] bg-[#2E3440] shadow-sm">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-slate-600" />
+              <ArrowLeft className="w-5 h-5 text-white" />
             </button>
 
             <UserAvatar
@@ -139,21 +145,22 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
             />
 
             <div>
-              <h2 className="font-semibold text-slate-900">{headerName}</h2>
-              <p className="text-sm text-slate-500">{headerSubtitle}</p>
+              <h2 className="font-serif font-semibold text-white">{headerName}</h2>
+              <p className="text-sm text-white/70">{headerSubtitle}</p>
             </div>
           </div>
 
-          <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-            <MoreVertical className="w-5 h-5 text-slate-600" />
+          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+            <MoreVertical className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
 
+      {/* Messages */}
       <div
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-slate-50 to-white"
+        className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-[#F4F6F8] to-white"
       >
         {messages.length === 0 ? (
           <EmptyState type="no-messages" />
@@ -188,7 +195,7 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
       {showScrollButton && (
         <button
           onClick={scrollToBottom}
-          className="absolute bottom-24 right-8 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition-all hover:scale-110 animate-fade-in"
+          className="absolute bottom-24 right-8 p-3 bg-[#8B7CF6] text-white rounded-full shadow-lg hover:bg-[#8B7CF6]/90 transition-all hover:scale-110 animate-fade-in"
         >
           <ChevronDown className="w-5 h-5" />
         </button>

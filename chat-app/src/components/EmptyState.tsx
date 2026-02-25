@@ -28,13 +28,13 @@ export default function EmptyState({ type }: EmptyStateProps) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-8">
-      <div className="w-20 h-20 bg-linear-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
-        <Icon className="w-10 h-10 text-indigo-500" />
+      <div className="w-20 h-20 bg-gradient-to-br from-[#8B7CF6]/20 to-[#2E3440]/20 rounded-full flex items-center justify-center mb-4">
+        <Icon className="w-10 h-10 text-[#8B7CF6]" />
       </div>
-      <h3 className="text-lg font-semibold text-slate-900 mb-2">
+      <h3 className="text-lg font-semibold text-[#2E3440] mb-2">
         {state.title}
       </h3>
-      <p className="text-sm text-slate-500 max-w-sm">{state.description}</p>
+      <p className="text-sm text-[#2E3440]/60 max-w-sm">{state.description}</p>
     </div>
   );
 }

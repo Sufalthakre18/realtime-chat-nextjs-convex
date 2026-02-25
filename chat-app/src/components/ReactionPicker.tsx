@@ -38,13 +38,13 @@ export default function ReactionPicker({
   return (
     <div
       ref={pickerRef}
-      className="bg-white border border-slate-200 rounded-2xl shadow-2xl p-2 flex gap-1 animate-fade-in"
+      className="bg-white border border-[#E6E8EC] rounded-2xl shadow-2xl p-2 flex gap-1 animate-fade-in"
     >
       {EMOJIS.map((emoji) => (
         <button
           key={emoji}
           onClick={() => handleReaction(emoji)}
-          className="w-10 h-10 flex items-center justify-center text-2xl hover:bg-slate-100 rounded-lg transition-all hover:scale-125"
+          className="w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#F4F6F8] rounded-lg transition-all hover:scale-125"
         >
           {emoji}
         </button>

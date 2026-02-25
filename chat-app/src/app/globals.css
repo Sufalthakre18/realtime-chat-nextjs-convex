@@ -44,3 +44,10 @@
 .animate-pulse-dot {
   animation: pulse-dot 1.5s ease-in-out infinite;
 }
+
+
+
+.authdiv {
+  background-image: url(../../public/authdiv.jpg);
+  background-blend-mode: lighten;
+}

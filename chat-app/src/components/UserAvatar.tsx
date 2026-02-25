@@ -25,7 +25,7 @@ export default function UserAvatar({
 
   return (
     <div className="relative inline-block">
-      <Avatar className={`${sizeClasses[size]} rounded-full overflow-hidden bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center ring-2 ring-white shadow-sm`}>
+      <Avatar className={`${sizeClasses[size]} rounded-full overflow-hidden bg-[#397d7f] flex items-center justify-center ring-2 ring-white shadow-sm`}>
         {imageUrl ? (
           <AvatarImage
             src={imageUrl}

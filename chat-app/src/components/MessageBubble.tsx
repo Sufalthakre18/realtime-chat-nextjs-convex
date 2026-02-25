@@ -25,11 +25,10 @@ export default function MessageBubble({
 }: MessageBubbleProps) {
   const [showActions, setShowActions] = useState(false);
   const [showReactionPicker, setShowReactionPicker] = useState(false);
-  const [loadReactions, setLoadReactions] = useState(false); // Only load when needed!
+  const [loadReactions, setLoadReactions] = useState(false);
   
   const deleteMessage = useMutation(api.messages.deleteMessage);
   
-  // Only query reactions when hovering or when reactions exist
   const reactions = useQuery(
     api.reactions.getReactions,
     loadReactions ? { messageId: message._id } : "skip"
@@ -43,7 +42,7 @@ export default function MessageBubble({
 
   const handleMouseEnter = () => {
     setShowActions(true);
-    setLoadReactions(true); // Load reactions on hover
+    setLoadReactions(true);
   };
 
   return (
@@ -66,7 +65,7 @@ export default function MessageBubble({
 
       <div className={`flex flex-col ${isOwn ? "items-end" : "items-start"} max-w-[70%]`}>
         {!isOwn && showAvatar && (
-          <span className="text-xs font-semibold text-slate-600 mb-1 px-3">
+          <span className="text-xs font-serif font-semibold text-[#2E3440]/70 mb-1 px-3">
             {sender?.name}
           </span>
         )}
@@ -77,16 +76,16 @@ export default function MessageBubble({
               px-4 py-2.5 rounded-2xl shadow-sm
               ${
                 isOwn
-                  ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white"
-                  : "bg-white text-slate-900 border border-slate-200"
+                  ? "bg-[#3B4252] text-white"
+                  : "bg-[#E5E9F0] text-[#2E3440] border border-[#E6E8EC]"
               }
               ${message.isDeleted ? "italic opacity-75" : ""}
             `}
           >
             {message.isDeleted ? (
-              <span className="text-sm">This message was deleted</span>
+              <span className="text-sm font-mono">This message was deleted</span>
             ) : (
-              <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
+              <p className="text-sm font-mono leading-relaxed break-words whitespace-pre-wrap">
                 {message.content}
               </p>
             )}
@@ -103,16 +102,16 @@ export default function MessageBubble({
             >
               <button
                 onClick={() => setShowReactionPicker(!showReactionPicker)}
-                className="p-1.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+                className="p-1.5 bg-white border border-[#E6E8EC] rounded-lg hover:bg-[#F4F6F8] transition-colors shadow-sm"
                 title="React"
               >
-                <Smile className="w-4 h-4 text-slate-600" />
+                <Smile className="w-4 h-4 text-[#2E3440]/70" />
               </button>
 
               {isOwn && (
                 <button
                   onClick={handleDelete}
-                  className="p-1.5 bg-white border border-slate-200 rounded-lg hover:bg-red-50 transition-colors shadow-sm"
+                  className="p-1.5 bg-white border border-[#E6E8EC] rounded-lg hover:bg-red-50 transition-colors shadow-sm"
                   title="Delete"
                 >
                   <Trash2 className="w-4 h-4 text-red-600" />
@@ -146,17 +145,17 @@ export default function MessageBubble({
                   setShowReactionPicker(true);
                   setLoadReactions(true);
                 }}
-                className="px-2 py-1 bg-white border border-slate-200 rounded-full text-xs flex items-center gap-1 hover:bg-slate-50 transition-colors shadow-sm"
+                className="px-2 py-1 bg-white border border-[#E6E8EC] rounded-full text-xs flex items-center gap-1 hover:bg-[#F4F6F8] transition-colors shadow-sm"
               >
                 <span>{reaction.emoji}</span>
-                <span className="text-slate-600 font-medium">{reaction.count}</span>
+                <span className="text-[#2E3440]/70 font-medium">{reaction.count}</span>
               </button>
             ))}
           </div>
         )}
 
         {/* Timestamp */}
-        <span className={`text-xs text-slate-500 mt-1 px-1 ${isOwn ? "text-right" : ""}`}>
+        <span className={`text-xs text-[#2E3440]/50 mt-1 px-1 ${isOwn ? "text-right" : ""}`}>
           {formatMessageTime(message.timestamp)}
         </span>
       </div>

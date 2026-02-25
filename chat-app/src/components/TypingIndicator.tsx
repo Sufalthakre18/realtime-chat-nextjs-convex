@@ -22,12 +22,12 @@ export default function TypingIndicator({
       : `${names} are typing`;
 
   return (
-    <div className="px-4 py-2 text-sm text-slate-500 italic flex items-center gap-2">
+    <div className="px-4 py-2 text-sm text-[#2E3440]/60 italic flex items-center gap-2">
       <span>{text}</span>
       <div className="flex gap-1">
-        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse-dot" style={{ animationDelay: "0s" }} />
-        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse-dot" style={{ animationDelay: "0.2s" }} />
-        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse-dot" style={{ animationDelay: "0.4s" }} />
+        <span className="w-1.5 h-1.5 bg-[#8B7CF6] rounded-full animate-pulse-dot" />
+        <span className="w-1.5 h-1.5 bg-[#8B7CF6] rounded-full animate-pulse-dot [animation-delay:0.2s]" />
+        <span className="w-1.5 h-1.5 bg-[#8B7CF6] rounded-full animate-pulse-dot [animation-delay:0.4s]" />
       </div>
     </div>
   );

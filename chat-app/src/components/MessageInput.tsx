@@ -1,4 +1,3 @@
-// src/components/MessageInput.tsx - WITH SAFE typing
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -32,18 +31,15 @@ export default function MessageInput({ conversationId }: MessageInputProps) {
   const handleTyping = () => {
     const now = Date.now();
     
-    // Only send typing indicator every 10 SECONDS (very safe!)
     if (now - lastTypingRef.current > 10000) {
       setTyping({ conversationId }).catch(() => {});
       lastTypingRef.current = now;
     }
 
-    // Clear previous timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
-    // Remove typing after 3 seconds of no typing
     typingTimeoutRef.current = setTimeout(() => {
       removeTyping({ conversationId }).catch(() => {});
     }, 3000);
@@ -87,7 +83,7 @@ export default function MessageInput({ conversationId }: MessageInputProps) {
   };
 
   return (
-    <div className="shrink-0 border-t border-slate-200 bg-white p-4">
+    <div className="shrink-0 border-t border-[#E6E8EC] bg-white p-4">
       <div className="flex items-end gap-2">
         <textarea
           ref={textareaRef}
@@ -97,13 +93,13 @@ export default function MessageInput({ conversationId }: MessageInputProps) {
           placeholder="Type a message..."
           disabled={isSending}
           rows={1}
-          className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white max-h-32"
+          className="flex-1 px-4 py-3 bg-[#F4F6F8] border border-[#E6E8EC] rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-[#8B7CF6] focus:bg-white max-h-32"
         />
 
         <button
           onClick={handleSend}
           disabled={!message.trim() || isSending}
-          className="shrink-0 w-12 h-12 bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-full flex items-center justify-center disabled:opacity-50 shadow-lg"
+          className="shrink-0 w-12 h-12 bg-[#8B7CF6] text-white rounded-full flex items-center justify-center disabled:opacity-50 shadow-lg hover:bg-[#8B7CF6]/90"
         >
           {isSending ? (
             <Loader2 className="w-5 h-5 animate-spin" />

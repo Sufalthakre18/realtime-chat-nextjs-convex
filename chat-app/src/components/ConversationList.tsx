@@ -21,7 +21,7 @@ export default function ConversationList({
   if (conversations === undefined) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B7CF6]"></div>
       </div>
     );
   }
@@ -37,8 +37,8 @@ export default function ConversationList({
           key={conversation._id}
           onClick={() => onSelectConversation(conversation._id)}
           className={`
-            w-full p-4 flex items-start gap-3 hover:bg-slate-50 transition-colors border-l-4 text-left
-            ${selectedConversationId === conversation._id ? "bg-indigo-50 border-indigo-600" : "border-transparent"}
+            w-full p-4 flex items-start gap-3 hover:bg-[#F4F6F8] transition-colors border-l-4 text-left
+            ${selectedConversationId === conversation._id ? "bg-[#E5E9F0] border-[#2E3440]" : "border-transparent"}
           `}
         >
           <UserAvatar
@@ -51,23 +51,22 @@ export default function ConversationList({
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold text-slate-900 truncate">
+              <span className="font-serif text-[#2E3440] truncate">
                 {conversation.name}
               </span>
               {conversation.lastMessageAt && (
-                <span className="text-xs text-slate-500 shrink-0 ml-2">
+                <span className="text-xs font-mono text-[#2E3440]/60 shrink-0 ml-2">
                   {formatMessageTime(conversation.lastMessageAt)}
                 </span>
               )}
             </div>
 
             <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-600 truncate">
+              <p className="text-sm font-mono text-[#2E3440]/70 truncate">
                 {conversation.lastMessagePreview || "No messages yet"}
               </p>
-              {/* UNREAD BADGE */}
               {conversation.unreadCount > 0 && (
-                <span className="shrink-0 ml-2 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="shrink-0 ml-2 bg-[#8B7CF6] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {conversation.unreadCount}
                 </span>
               )}
