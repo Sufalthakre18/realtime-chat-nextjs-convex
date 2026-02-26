@@ -52,7 +52,7 @@ export const sendMessage = mutation({
       lastMessagePreview: args.content.substring(0, 50),
     });
 
-    // UPDATE ONLINE STATUS (piggyback on send!)
+    // UPDATE ONLINE STATUS 
     await ctx.db.patch(user._id, {
       isOnline: true,
       lastSeen: timestamp,

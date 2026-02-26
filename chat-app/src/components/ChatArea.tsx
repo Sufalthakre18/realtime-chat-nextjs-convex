@@ -128,7 +128,7 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
   return (
     <div className="h-full flex flex-col bg-white w-full">
       {/* Header */}
-      <div className="shrink-0 border-b border-[#E6E8EC] bg-[#2E3440] shadow-sm">
+      <div className="shrink-0 border-b border-[#E6E8EC] bg-indigo-600 shadow-sm">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -160,7 +160,7 @@ export default function ChatArea({ conversationId, onBack }: ChatAreaProps) {
       <div
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-[#F4F6F8] to-white"
+        className="flex-1 overflow-y-auto p-4 space-y-4 bg-linear-to-b from-[#F4F6F8] to-white"
       >
         {messages.length === 0 ? (
           <EmptyState type="no-messages" />

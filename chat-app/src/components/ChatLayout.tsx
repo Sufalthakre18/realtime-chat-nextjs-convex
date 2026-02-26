@@ -1,4 +1,3 @@
-// src/components/ChatLayout.tsx - REPLACE ENTIRE FILE
 "use client";
 
 import { useState } from "react";

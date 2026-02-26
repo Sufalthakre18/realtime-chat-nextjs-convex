@@ -85,7 +85,7 @@ export default function MessageBubble({
             {message.isDeleted ? (
               <span className="text-sm font-mono">This message was deleted</span>
             ) : (
-              <p className="text-sm font-mono leading-relaxed break-words whitespace-pre-wrap">
+              <p className="text-sm font-mono leading-relaxed wrap-break-word whitespace-pre-wrap">
                 {message.content}
               </p>
             )}
